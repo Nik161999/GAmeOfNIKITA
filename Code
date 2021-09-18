@@ -1,0 +1,112 @@
+import java.util.*;
+public class GAmeOfNIKITA
+{
+   public  void ToGetnextGrid(int grid[][], int z, int n,int grid1[][])
+      {
+       
+         for (int x = 1; x < z - 1; x++)                                                               // Looping through every cell                   
+           {
+            for (int m = 1; m < n - 1; m++)
+            {
+                int alive_Neighbours = 0;                                                          // finding no Of Neighbours that are alive
+                for (int i = -1; i <= 1; i++)
+                    for (int j = -1; j <= 1; j++)
+	        alive_Neighbours += grid[x + i][m + j];
+			
+                
+                if ((grid[x][m] == 1) && (alive_Neighbours < 2))                        // Cell is lonely and dies
+                    grid1[x][m] = 0;
+ 
+               
+                else if ((grid[x][m] == 1) && (alive_Neighbours > 3))                   // Cell dies due to overcrowding
+                    grid1[x][m] = 0;
+ 
+               
+                else if ((grid[x][m] == 0) && (alive_Neighbours == 3))                 // A new cell is born
+                    grid1[x][m] = 1;
+ 
+              
+                else                                                                 
+                    grid1[x][m] = grid[x][m];                                                                // Remains the same
+            }
+			
+        }
+     
+       for (int i = 0; i < z; i++)
+       {
+            for (int j = 0; j < n; j++)
+            {
+               System.out.print(grid1[i][j] + "\t");
+            }
+            System.out.println();
+        }
+     
+   }   
+
+     public  void checkStatusOfGrid(int grid1[][])
+      {
+          Scanner sc=new Scanner(System.in);
+         System.out.println("==============Enter cell you want to Check:===========");
+          System.out.println("Enter row you want to Check:");
+          int  cell1=sc.nextInt();                                                                                                     //Input
+
+          System.out.println("Enter col you want to Check ");
+          int cell2=sc.nextInt();                                                                                                      //Input
+  
+           if(grid1[cell1][cell2]==1)
+                System.out.println("cell status is live.");
+               else
+                System.out.println("cell status is dead.");
+       
+       }   
+   
+  public static void main(String args[])
+    {
+         GAmeOfNIKITA  obj=new GAmeOfNIKITA();
+         Scanner sc=new Scanner(System.in);
+           int rows=10,cols=10;
+          char choice;
+          int ch;
+          int[][] grid= { 
+            { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },                                       //initializing the grid
+            { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+            { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 1, 1, 0, 0, 0, 0, 1 },
+            { 0, 0, 1, 1, 0, 0, 1, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+          };
+         int grid1[][] = new int[rows][cols];
+              
+       do
+         {
+
+        System.out.println("=========Game of life=========:");
+        System.out.println("\n1.Get Next State\n2. check cell");
+         System.out.println("Please Enter Your Choice ");
+         ch=sc.nextInt();
+        
+         switch(ch)
+         {
+             case 1 : 
+                    obj.ToGetnextGrid(grid,rows,cols,grid1);   
+                       break;
+                        
+             case 2 : 
+                      obj.checkStatusOfGrid(grid1);   
+                       break;
+                        
+           
+             default:
+                        System.out.println("Wrong Choice");
+         }
+          System.out.println("Do you want to continue:Press(y || n)");  
+            choice=sc.next().charAt(0);
+         }while(choice=='y');
+    
+   }   
+   
+}
